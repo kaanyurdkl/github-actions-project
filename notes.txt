@@ -1,0 +1,64 @@
+This application is a full stack app. 
+We have a server component for the API.
+We have a client for the frontend
+
+For large scale apps where we have multiple different pieces
+like a frontend and a backend, it's common that we create multiple
+node packages for those different parts of our app that all live in
+our main project folder. So frontend and server will have their
+own package. And we will have a package.json at the root too. Which
+wraps the two packages for our server and client. So we can run npm
+commands from our project folder that perform actions like starting
+our app.
+
+Task: We have a frontend that's already nearly complete, and we are
+asked to make a backend api.
+
+Steps of building node server
+- First take a look at frontend
+- Move server directory and setup npm package npm init -y
+- Install expressjs npm i express
+- Install nodemon npm i --save-dev nodemon
+- Change package.json name and description
+- Add nodemon script into package json "watch":"nodemon server.js"
+- Create /src directory to separate the config and code
+- Start writing code in server.js
+- Separate server functionality from express code by app.js and server.js
+- Start adding endpoints by getting the list of target planets that we wanna explore
+We create planets collection in routes for that
+- We create our controllers next to our routers instead of created controllers folder.
+Grouping router and controller together can make it easier to use the controller.
+- We create a model for the planets data stored in the server
+- Add the endpoint to the frontend
+- Client and the server are on different ports. Client is on 3000, backend api is
+set 8000 by default
+- Fix the cors issue by adding a cors middleware
+- Create /data directory for the csv data, and adjust planets model to read csv
+- Planet data is loaded and parsed as a stream, all this happens asynchronously. We
+tell Node to start processing our file, but we dont wait for it. Our module exports
+the planets before they've necesssarily been loaded, and this all happens the first
+time our planets.model.js file is required. CreateReadStream is a asynchronous task
+To solve, create a function returning a promise with all the file reading process
+inside of it, then in server.js, await for this promise to resolve before start
+listening the backend
+- Create project npm package with scripts
+
+How we would run our project in prod? We can run our server and client with one
+command. But they still run separately as different applications on different ports.
+Our server runs on port 8000, while our client uses port 3000. When we run our
+project in prod, to keep things simple we often want to run entire thing on one server
+somewhere in the cloud. Ideally we have the ability to server our frontend from the
+same server as our API. This way we dont have to manage two separate servers at
+different urls or with ports. The way we usually do this in our clients, before using
+some framework, like react or angular, we'd first build our project including our
+framework, our source code, and any assets we are using into a single build folder
+that's optimized for production.
+
+- Adjust the build script of the client to build in server. Then our client code and
+server code will be side by side and we can serve it from our API.
+- Our frontend will be only routing the slash ('/'). So when the app starts, we won't
+see the page we want to see at the beginning. In app.js, we can handle the requests
+come to '/' route
+- Loggin the requests using Morgan.
+- Create launches model
+= Create launches controller and router
