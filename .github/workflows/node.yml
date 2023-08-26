@@ -11,7 +11,7 @@ jobs:
       - uses: actions/chekcout@v3
       - name: Use Node.js version 20
         uses: actions/setup-node@v3
-        width:
+        with:
           node-version: "20"
       - run: npm install
       - run: npm run build --prefix client
